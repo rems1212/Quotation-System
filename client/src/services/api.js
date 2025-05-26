@@ -26,6 +26,6 @@ api.interceptors.request.use(
 export const fetchProducts = () => {
   return fetch(`${API_BASE}/api/products`).then(res => res.json());
 };
-};
+
 
 export default api;
