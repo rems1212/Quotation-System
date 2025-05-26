@@ -1,8 +1,7 @@
 // server.js
-const cors = require("cors");
+const app = require('./app'); // app.js se app import
+const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: "https://quotation-system-rho.vercel.app",  // <-- Vercel ka frontend link
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+});
