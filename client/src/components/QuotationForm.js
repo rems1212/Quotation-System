@@ -127,6 +127,7 @@ const QuotationForm = () => {
         transportationCharge: parseFloat(formData.transportationCharge) || 0,
         labourCharge: parseFloat(formData.labourCharge) || 0,
       };
+      console.log("Form ka data:", payload);
       if (isEditMode) {
         await api.put(`/api/quotations/${id}`, payload);
         alert('Quotation updated successfully!');
@@ -136,10 +137,15 @@ const QuotationForm = () => {
         alert('Quotation created successfully!');
         navigate(`/quotation-view/${response.data._id}`);
       }
-    } catch (error) {
-      console.error('Error saving quotation:', error);
-      alert('Failed to save quotation');
-    }
+   } catch (error) {
+  if (error.response) {
+    console.error('Server se error:', error.response.data); // <-- Ye important hai
+    alert('Server Error: ' + JSON.stringify(error.response.data));
+  } else {
+    console.error('Error saving quotation:', error);
+    alert('Failed to save quotation');
+  }
+}
   };
 
   return (
