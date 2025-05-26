@@ -16,6 +16,7 @@ function App() {
             <Route path="/quotation-form" element={<QuotationForm />} />
             <Route path="/quotation-list" element={<QuotationList />} />
             <Route path="/quotation-view/:id" element={<QuotationView />} />
+            <Route path="/quotation-edit/:id" element={<QuotationForm />} />
             <Route path="/" element={<QuotationList />} />
           </Routes>
         </div>

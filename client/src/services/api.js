@@ -1,8 +1,9 @@
-// services/api.js
 import axios from 'axios';
 
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Your backend API URL
+  baseURL: API_BASE, // Your backend API URL from environment variable
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,5 +22,9 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export const fetchProducts = () => {
+  return fetch(`${API_BASE}/api/products`).then(res => res.json());
+};
 
 export default api;

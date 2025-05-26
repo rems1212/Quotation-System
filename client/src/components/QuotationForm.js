@@ -1,9 +1,10 @@
 // components/QuotationForm.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 
 const QuotationForm = () => {
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     customerName: '',
     customerMobile: '',
@@ -24,12 +25,13 @@ const QuotationForm = () => {
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     // Fetch predefined products from backend
     const fetchProducts = async () => {
       try {
-        const response = await api.get('/products');
+        const response = await api.get('/api/products');
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -37,6 +39,40 @@ const QuotationForm = () => {
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      setIsEditMode(true);
+      // Fetch existing quotation data for editing
+      const fetchQuotation = async () => {
+        try {
+          const response = await api.get(`/api/quotations/${id}`);
+          const data = response.data;
+          setFormData({
+            customerName: data.customerName || '',
+            customerMobile: data.customerMobile || '',
+            productName: data.productName || '',
+            brand: data.brand || '',
+            size: data.size || '',
+            ratePerSqft: data.ratePerSqft || 0,
+            withGST: data.withGST || false,
+            totalQuantity: data.totalQuantity || 0,
+            totalSqft: data.totalSqft || 0,
+            price: data.price || 0,
+            sgst: data.sgst || 0,
+            cgst: data.cgst || 0,
+            transportationCharge: data.transportationCharge || 0,
+            labourCharge: data.labourCharge || 0,
+            totalAmount: data.totalAmount || 0
+          });
+        } catch (error) {
+          console.error('Error fetching quotation:', error);
+          alert('Failed to load quotation for editing');
+        }
+      };
+      fetchQuotation();
+    }
+  }, [id]);
 
   useEffect(() => {
     // Calculate totalSqft based on size (format "width x height") and totalQuantity
@@ -91,18 +127,24 @@ const QuotationForm = () => {
         transportationCharge: parseFloat(formData.transportationCharge) || 0,
         labourCharge: parseFloat(formData.labourCharge) || 0,
       };
-      const response = await api.post('/quotations', payload);
-      alert('Quotation created successfully!');
-      navigate(`/quotation-view/${response.data._id}`);
+      if (isEditMode) {
+        await api.put(`/api/quotations/${id}`, payload);
+        alert('Quotation updated successfully!');
+        navigate(`/quotation-view/${id}`);
+      } else {
+        const response = await api.post('/api/quotations', payload);
+        alert('Quotation created successfully!');
+        navigate(`/quotation-view/${response.data._id}`);
+      }
     } catch (error) {
-      console.error('Error creating quotation:', error);
-      alert('Failed to create quotation');
+      console.error('Error saving quotation:', error);
+      alert('Failed to save quotation');
     }
   };
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>Create Client Material Quotation</h2>
+      <h2>{isEditMode ? 'Edit Client Material Quotation' : 'Create Client Material Quotation'}</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
           <label>Customer Name:</label>
@@ -291,7 +333,7 @@ const QuotationForm = () => {
         </div>
 
         <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', cursor: 'pointer' }}>
-          Create Quotation
+          {isEditMode ? 'Update Quotation' : 'Create Quotation'}
         </button>
       </form>
     </div>

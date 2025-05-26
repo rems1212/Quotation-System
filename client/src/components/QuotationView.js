@@ -15,7 +15,7 @@ const QuotationView = () => {
   useEffect(() => {
     const fetchQuotation = async () => {
       try {
-        const response = await api.get(`/quotations/${id}`);
+        const response = await api.get(`/api/quotations/${id}`);
         console.log('Fetched quotation:', response.data);  // Debug log
         setQuotation(response.data);
       } catch (error) {

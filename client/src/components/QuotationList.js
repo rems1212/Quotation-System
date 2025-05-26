@@ -9,7 +9,7 @@ const QuotationList = () => {
   useEffect(() => {
     const fetchQuotations = async () => {
       try {
-        const response = await api.get('/quotations');
+        const response = await api.get('/api/quotations');
         setQuotations(response.data);
       } catch (error) {
         console.error('Error fetching quotations:', error);
@@ -21,7 +21,7 @@ const QuotationList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this quotation?')) {
       try {
-        await api.delete(`/quotations/${id}`);
+        await api.delete(`/api/quotations/${id}`);
         setQuotations(quotations.filter(quotation => quotation._id !== id));
       } catch (error) {
         console.error('Error deleting quotation:', error);
