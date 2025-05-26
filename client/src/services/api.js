@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_BASE = process.env.REACT_APP_API_URL || "https://quotation-system-0gr2.onrender.com/api/quotations";
 
 const api = axios.create({
   baseURL: API_BASE, // Your backend API URL from environment variable
@@ -25,6 +25,7 @@ api.interceptors.request.use(
 
 export const fetchProducts = () => {
   return fetch(`${API_BASE}/api/products`).then(res => res.json());
+};
 };
 
 export default api;
