@@ -12,9 +12,9 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection
-mongoose.connect('mongodb://127.0.0.1:27017/interiorDesignerDB')
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect('mongodb+srv://remssuthar1213:remssuthar@cluster0.wcgnu6j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch(err => console.error('MongoDB Atlas connection error:', err));
 
 // Routes
 app.use('/api/quotations', quotationRoutes);
