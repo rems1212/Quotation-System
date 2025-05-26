@@ -12,7 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection
-mongoose.connect('mongodb+srv://remssuthar1213:remssuthar@cluster0.wcgnu6j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://remssuthar1213:remssuthar@cluster0.wcgnu6j.mongodb.net/interiorDesignerDB?retryWrites=true&w=majority&appName=Cluster0')
+
 .then(() => console.log('Connected to MongoDB Atlas'))
 .catch(err => console.error('MongoDB Atlas connection error:', err));
 
