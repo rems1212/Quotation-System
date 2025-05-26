@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || "https://quotation-system-0gr2.onrender.com/api/quotations";
+const API_BASE = process.env.REACT_APP_API_URL || "https://quotation-system-0gr2.onrender.com";
 
 const api = axios.create({
   baseURL: API_BASE, // Your backend API URL from environment variable
